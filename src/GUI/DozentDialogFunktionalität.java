@@ -1,5 +1,10 @@
-package persistenz;
+package GUI;
 
+
+import persistenz.Dozent;
+import persistenz.Modul;
+import persistenz.Pruefung;
+import persistenz.Pruefungstermin;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +43,6 @@ public class DozentDialogFunktionalität {
         for (Pruefung p: pt.getPruefungen()){
             durchschnitt =+ p.getNote();
         }
-        durchschnitt = durchschnitt/ (double) pt.getPruefungen().size();
+        return durchschnitt = durchschnitt/ (double) pt.getPruefungen().size();
     }
 }

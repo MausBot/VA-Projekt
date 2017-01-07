@@ -265,17 +265,17 @@ public class NotenManagerGUI extends Application {
                     FehlerBox.display("Fehler!", "'" + textField.getText() + "'" + " ist keine zulässige Note!", "Bestätigen");
                 textField.clear();
             } else
-                FehlerBox.display("Fehler!", "'" + textField.getText() +"'" + " ist keine zulässige Note!", "Bestätigen");
+                FehlerBox.display("Fehler!", "'" + textField.getText() + "'" + " ist keine zulässige Note!", "Bestätigen");
                 textField.clear();
     }
 
     //TODO durch datenbankintegration ersetzen! Namen und Note sind Datenbank werte!
     public ObservableList<StudentNote> getStudentenIDs(){
         ObservableList<StudentNote> studenten = FXCollections.observableArrayList();
-        studenten.add(new StudentNote("Maus","Snubbel",null));
-        studenten.add(new StudentNote("Bot","Party",1.0));
-        studenten.add(new StudentNote("Hase","Drecks",null));
-        studenten.add(new StudentNote("Schwein","Böses",null));
+        studenten.add(new StudentNote(1, "Maus", "Snubbel", null));
+        studenten.add(new StudentNote(2, "Bot", "Party", 1.0));
+        studenten.add(new StudentNote(3, "Hase", "Drecks", null));
+        studenten.add(new StudentNote(4, "Schwein", "Böses", null));
         return studenten;
     }
 

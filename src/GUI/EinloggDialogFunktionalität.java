@@ -1,5 +1,7 @@
-package persistenz;
+package GUI;
 
+
+import persistenz.Dozent;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
