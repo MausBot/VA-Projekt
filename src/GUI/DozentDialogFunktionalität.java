@@ -16,15 +16,6 @@ public class DozentDialogFunktionalität {
         return d.getModule();
     }
 
-    public static List<Modul> dropDownModulInt(int id){
-
-        EntityManager em = emf.createEntityManager();
-        Dozent d = em.find(Dozent.class, id);
-        em.close();
-
-        return d.getModule();
-    }
-
     public static List<Date> dropDownDatum(Modul m){
         List<Date> datumListe = new ArrayList<Date>();
         for (Pruefungstermin pt: m.getPrueftermine()){
