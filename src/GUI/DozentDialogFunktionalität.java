@@ -12,11 +12,20 @@ import java.util.List;
 
 public class DozentDialogFunktionalität {
 
-    public List<Modul> dropDownModul(Dozent d){
+    public static List<Modul> dropDownModul(Dozent d){
         return d.getModule();
     }
 
-    public List<Date> dropDownDatum(Modul m){
+    public static List<Modul> dropDownModulInt(int id){
+
+        EntityManager em = emf.createEntityManager();
+        Dozent d = em.find(Dozent.class, id);
+        em.close();
+
+        return d.getModule();
+    }
+
+    public static List<Date> dropDownDatum(Modul m){
         List<Date> datumListe = new ArrayList<Date>();
         for (Pruefungstermin pt: m.getPrueftermine()){
             datumListe.add(pt.getDatum());

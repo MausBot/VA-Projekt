@@ -19,10 +19,13 @@ import javafx.scene.text.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import persistenz.Modul;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NotenManagerGUI extends Application {
@@ -34,6 +37,8 @@ public class NotenManagerGUI extends Application {
     private String sNachname = "Nachname";
     private String sVorname = "Vorname";
     private Double sNote;
+    private Integer loginID;
+    private String versionNr = "Alpha 1";
 
     private double[] validNote = {1.0,1.3,1.7,2.0,2.3,2.7,3.0,3.3,3.7,4.0,5.0};
     private List valid = toList(validNote);
@@ -45,7 +50,7 @@ public class NotenManagerGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
         fenster = primaryStage;
-        fenster.setTitle("Noten Manager Alpha 0.1");
+        fenster.setTitle("Noten Manager " + versionNr);
         fenster.setOnCloseRequest(e -> {
             e.consume();
             closeProgram();
@@ -72,7 +77,8 @@ public class NotenManagerGUI extends Application {
 
         Button anmButton = new Button("Anmelden");
         anmButton.setOnAction(e-> {
-            validateInput(nameInput, nameInput.getText(), pwInput, pwInput.getText() );
+            validateInput(nameInput, nameInput.getText(), pwInput, pwInput.getText());
+            loginID = Integer.valueOf(nameInput.getText());
         });
 
         // Login Layout
@@ -119,34 +125,22 @@ public class NotenManagerGUI extends Application {
         //Klausurfilter Elemente
         //TODO Import Modulnamen und Daten aus Datenbank! aktuell Dummyeinträge!
         //TODO Daten nach dem auswählen eines Moduls entsprechend des Moduls importieren
-        ComboBox klausurFach = new ComboBox<String>();
+        ComboBox<Modul> klausurFach = new ComboBox<>();
         klausurFach.setPromptText("Modul");
         klausurFach.setPrefWidth(150);
-        klausurFach.getItems().addAll("Schnubseln","Flubbeln","Knarzeln","Fiddeln");
 
-        ComboBox klausurDatum = new ComboBox<String>();
+        ObservableList<Modul> modulList = FXCollections.observableArrayList(DozentDialogFunktionalität.dropDownModulInt(loginID));
+        klausurFach.getItems().addAll(modulList);
+
+        ComboBox<String> klausurDatum = new ComboBox<>();
         klausurDatum.setPromptText("Prüfungsdatum");
         klausurDatum.setPrefWidth(150);
         klausurDatum.setDisable(true);
 
-        ObservableList<String> modulADate = FXCollections.observableArrayList("test1","test2");
-        ObservableList<String> modulBDate = FXCollections.observableArrayList("test3","test4");
-        ObservableList<String> modulCDate = FXCollections.observableArrayList("test5","test6");
-        ObservableList<String> modulDDate = FXCollections.observableArrayList("test7","test8");
-
         klausurFach.setOnAction(e -> {
             klausurDatum.setDisable(false);
-
-            if(klausurFach.getValue() == "Schnubseln")
-                klausurDatum.setItems(modulADate);
-            else if(klausurFach.getValue() == "Flubbeln")
-                klausurDatum.setItems(modulBDate);
-            else if(klausurFach.getValue() == "Knarzeln")
-                klausurDatum.setItems(modulCDate);
-            else if(klausurFach.getValue() == "Fiddeln")
-                klausurDatum.setItems(modulDDate);
-            else
-                klausurDatum.setDisable(true);
+            ObservableList<Date> kDate = FXCollections.observableArrayList(DozentDialogFunktionalität.dropDownDatum(klausurFach.getValue()));
+            klausurDatum.setItems(kDate);
         });
 
         //Noteneingabe Elemente
@@ -224,6 +218,7 @@ public class NotenManagerGUI extends Application {
         fenster.setResizable(false);
         fenster.sizeToScene();
         fenster.show();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("nm-pu");
     }
     // =^.^= TODO Musst die Methode noch zu Ende schreiben, damit die mit der Datenbank abgleicht.
     // TODO False Cases der if statements der Methode für das GUI einbinden (PopUp und clearen der jeweiligen Textbox)
@@ -236,6 +231,7 @@ public class NotenManagerGUI extends Application {
     private void closeProgram() {
         Boolean schließen = BestaetigungsBox.display("Programm Beenden?", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
         if(schließen)
+            emf.close();
             fenster.close();
     }
 
@@ -299,7 +295,6 @@ public class NotenManagerGUI extends Application {
             noteInput.setDisable(true);
             noteInput.setText(String.valueOf(sNote));
             text.setText("Es ist bereits eine Note eingegeben!");
-            //text.setFill(Paint.valueOf("AB4642"));
             text.setStyle("-fx-fill: #ab4642");
         }
         //System.out.println(sNachname + sVorname + sNote);
