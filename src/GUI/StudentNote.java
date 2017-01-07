@@ -1,17 +1,20 @@
 package GUI;
-public class StudentenID {
+public class StudentNote {
 
     private String nachname;
     private String vorname;
     private Double note;
+    private Integer id;
 
-    public StudentenID(){
+    public StudentNote(){
+        this.id = 0;
         this.nachname = "";
         this.vorname = "";
         this.note = 0.0;
     }
 
-    public StudentenID(String nachname, String vorname, Double note){
+    public StudentNote(Integer id, String nachname, String vorname, Double note){
+        this.id = id;
         this.nachname = nachname;
         this.vorname = vorname;
         this.note = note;
@@ -39,5 +42,13 @@ public class StudentenID {
 
     public void setNote(Double note) {
         this.note = note;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

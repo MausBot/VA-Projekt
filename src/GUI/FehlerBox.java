@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class FehlerBox {
 
-    public static void display(String titel, String nachricht) {
+    public static void display(String titel, String nachricht, String btnName) {
         Stage fenster = new Stage();
         fenster.initModality(Modality.APPLICATION_MODAL);
         fenster.setTitle(titel);
@@ -23,7 +23,7 @@ public class FehlerBox {
         label.setPadding(new Insets(0, 0, 20, 0));
 
         //Button zur Bestätigung
-        Button okButton = new Button("Okay");
+        Button okButton = new Button(btnName);
 
         okButton.setOnAction(e -> fenster.close());
 

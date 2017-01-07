@@ -29,7 +29,7 @@ public class NotenManagerGUI extends Application {
 
     Stage fenster;
     Scene login, dozentScene;
-    TableView<StudentenID> studentenTable = new TableView<>();
+    TableView<StudentNote> studentenTable = new TableView<>();
 
     private String sNachname = "Nachname";
     private String sVorname = "Vorname";
@@ -168,15 +168,15 @@ public class NotenManagerGUI extends Application {
         //Datentabelle
 
         //Nachnamen Spalte
-        TableColumn<StudentenID, String> nachnameColumn = new TableColumn<>("Nachname");
+        TableColumn<StudentNote, String> nachnameColumn = new TableColumn<>("Nachname");
         nachnameColumn.setMinWidth(150);
         nachnameColumn.setCellValueFactory(new PropertyValueFactory<>("nachname"));
         //Vornamen Spalte
-        TableColumn<StudentenID, String> vornameColumn = new TableColumn<>("Vorname");
+        TableColumn<StudentNote, String> vornameColumn = new TableColumn<>("Vorname");
         vornameColumn.setMinWidth(150);
         vornameColumn.setCellValueFactory(new PropertyValueFactory<>("vorname"));
         //Noten Spalte
-        TableColumn<StudentenID, Double> noteColumn = new TableColumn<>("Note");
+        TableColumn<StudentNote, Double> noteColumn = new TableColumn<>("Note");
         noteColumn.setMinWidth(50);
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
 
@@ -205,6 +205,7 @@ public class NotenManagerGUI extends Application {
         noteContainer.setPrefWidth(250);
 
         AnchorPane containerPane = new AnchorPane();
+        containerPane.setMaxWidth(100);
         containerPane.setPadding(new Insets(10,10,10,15));
         containerPane.getChildren().addAll(leftVBox, noteContainer);
         containerPane.setTopAnchor(leftVBox, 10.0);
@@ -261,20 +262,20 @@ public class NotenManagerGUI extends Application {
                 if (valid.contains(Double.parseDouble(textField.getText())))
                     NoteBestBox.display("Bestätigen", vorname.getText(), nachname.getText(), Double.parseDouble(textField.getText()));
                 else
-                    BestaetigungsBox.display("Fehler!", "'" + textField.getText() + "'" + " ist keine zulässige Note!");
+                    FehlerBox.display("Fehler!", "'" + textField.getText() + "'" + " ist keine zulässige Note!", "Bestätigen");
                 textField.clear();
             } else
-                BestaetigungsBox.display("Fehler!", "'" + textField.getText() +"'" + " ist keine zulässige Note!");
+                FehlerBox.display("Fehler!", "'" + textField.getText() +"'" + " ist keine zulässige Note!", "Bestätigen");
                 textField.clear();
     }
 
     //TODO durch datenbankintegration ersetzen! Namen und Note sind Datenbank werte!
-    public ObservableList<StudentenID> getStudentenIDs(){
-        ObservableList<StudentenID> studenten = FXCollections.observableArrayList();
-        studenten.add(new StudentenID("Maus","Snubbel",null));
-        studenten.add(new StudentenID("Bot","Party",1.0));
-        studenten.add(new StudentenID("Hase","Drecks",null));
-        studenten.add(new StudentenID("Schwein","Böses",null));
+    public ObservableList<StudentNote> getStudentenIDs(){
+        ObservableList<StudentNote> studenten = FXCollections.observableArrayList();
+        studenten.add(new StudentNote("Maus","Snubbel",null));
+        studenten.add(new StudentNote("Bot","Party",1.0));
+        studenten.add(new StudentNote("Hase","Drecks",null));
+        studenten.add(new StudentNote("Schwein","Böses",null));
         return studenten;
     }
 
